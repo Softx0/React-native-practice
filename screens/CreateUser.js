@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { View, Text, Button, TextInput, ScrollView, StyleSheet } from "react-native";
+import { View, Button, TextInput, ScrollView, StyleSheet } from "react-native";
 import firebase from "../database/firebase";
 
-const CreateUser = () => {
+const CreateUser = (props) => {
 
     const [user, setUser] = useState({
         name: '',
@@ -20,15 +20,19 @@ const CreateUser = () => {
         if (user.name === '' || user.email === '' || user.phone === '') {
             alert('Por favor no dejar campos vacios')
         } else {
-            // Añadiendo un objeto a la db nosql
-            await firebase.db.collection('users').add({
-                name: user.name,
-                email: user.email,
-                phone: user.phone
-            })
-            alert('Los datos han sido guardados exitosamente!')
+            try {
+                // Añadiendo un objeto a la db nosql
+                await firebase.db.collection('users').add({
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone
+                })
+                
+                props.navigation.navigate('UserList');
+            } catch (error) {
+                console.log(error);
+            }
         }
-
     }
 
     return (
