@@ -11,9 +11,9 @@ const Stack = createStackNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="UserList" component={UserList} />
-      <Stack.Screen name="CreateUser" component={CreateUser} />
-      <Stack.Screen name="UserDetail" component={UserDetail} />
+      <Stack.Screen name="UserList" component={UserList} options={{ title: `Users List` }} />
+      <Stack.Screen name="CreateUser" component={CreateUser} options={{ title: 'Create new user' }} />
+      <Stack.Screen name="UserDetail" component={UserDetail} options={{ title: `User's Detail` }} />
 
     </Stack.Navigator>
   )

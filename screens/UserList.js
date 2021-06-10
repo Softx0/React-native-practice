@@ -32,8 +32,13 @@ const UserList = (props) => {
             {
                 users.map((user) => {
                     return (
-                        <ListItem key={user.id} bottomDivider >
-                            <Avatar title={user.name.charAt(0).toUpperCase()} rounded source={{ uri: 'https://thispersondoesnotexist.com/image' }} />
+                        <ListItem key={user.id} bottomDivider onPress={() => {
+                            props.navigation.navigate('UserDetail', {
+                                userId: user.id,
+                            });
+                        }}
+                        >
+                            <Avatar title={user.name.charAt(0).toUpperCase()} rounded source={{ uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" }} />
                             <ListItem.Content>
                                 <ListItem.Title>{user.name}</ListItem.Title>
                                 <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
