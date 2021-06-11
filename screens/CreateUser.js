@@ -27,7 +27,7 @@ const CreateUser = (props) => {
                     email: user.email,
                     phone: user.phone
                 })
-                
+
                 props.navigation.navigate('UserList');
             } catch (error) {
                 console.log(error);
@@ -51,7 +51,10 @@ const CreateUser = (props) => {
             </View>
 
             <View>
-                <Button title="Save User" onPress={() => saveNewUser()} />
+                <Button
+                    title="Save User" onPress={() => saveNewUser()}
+                    color="#278d39"
+                />
             </View>
         </ScrollView>
     )
