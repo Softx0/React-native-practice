@@ -40,8 +40,16 @@ const UserDetail = (props) => {
         setLoader(false);
     }
 
-    const updateUser = () => {
+    const updateUser = async () => {
+        const dbRef = firebase.db.collection("users").doc(props.route.params.userId);
+        await dbRef.set({
+            name: user.name,
+            email: user.email,
+            phone: user.phone
+        });
 
+        setUser(initialState);
+        props.navigation.navigate('UserList');
     }
 
     const deleteUser = async () => {
@@ -55,7 +63,7 @@ const UserDetail = (props) => {
     const confirmationAlert = () => {
         Alert.alert('Remove the user', 'Are you sure?', [
             { text: 'Yes', onPress: () => deleteUser() },
-            { text: 'No', onPress: () => console.log("Cancel")}
+            { text: 'No', onPress: () => console.log("Cancel") }
         ])
     }
 
