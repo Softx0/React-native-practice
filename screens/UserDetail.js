@@ -41,11 +41,22 @@ const UserDetail = (props) => {
     }
 
     const updateUser = () => {
-        
+
     }
 
-    const deleteUser = () => {
+    const deleteUser = async () => {
+        const dbRef = firebase.db.collection("users").doc(props.route.params.userId);
+        await dbRef.delete();
 
+        //navegacion hacia user list
+        props.navigation.navigate('UserList');
+    };
+
+    const confirmationAlert = () => {
+        Alert.alert('Remove the user', 'Are you sure?', [
+            { text: 'Yes', onPress: () => deleteUser() },
+            { text: 'No', onPress: () => console.log("Cancel")}
+        ])
     }
 
     useEffect(() => {
@@ -102,7 +113,7 @@ const UserDetail = (props) => {
 
             <View style={styles.btnGroup} >
                 <Button
-                    title="Delete  User" onPress={() => deleteUser()}
+                    title="Delete  User" onPress={() => confirmationAlert()}
                     color="#f2463c"
                 />
             </View>
