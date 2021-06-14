@@ -15,6 +15,7 @@ const UserDetail = (props) => {
 
     const initialState = {
         id: "",
+        avatar: "",
         name: "",
         email: "",
         phone: "",
@@ -43,6 +44,7 @@ const UserDetail = (props) => {
     const updateUser = async () => {
         const dbRef = firebase.db.collection("users").doc(props.route.params.userId);
         await dbRef.set({
+            avatar: user.avatar,
             name: user.name,
             email: user.email,
             phone: user.phone
