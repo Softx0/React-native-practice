@@ -6,25 +6,16 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const UserList = (props) => {
     const [users, setUsers] = useState([]);
-    const [avatar, setAvatar] = useState("https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg");
-
-    const getAvatar = async () => {
-        await fetch("https://randomuser.me/api/").then(response => response.json()).then(data => {
-            let imageUrl = data.results[0].picture.medium;
-            console.log(imageUrl);
-            setAvatar(imageUrl);
-            return imageUrl;
-        });
-    };
 
     useEffect(() => {
-        console.log(getAvatar());
+        // console.log(getAvatar());
         firebase.db.collection("users").onSnapshot((querySnapshot) => {
             const usersArray = [];
             querySnapshot.docs.forEach((doc) => {
-                const { name, email, phone } = doc.data();
+                const { avatar, name, email, phone } = doc.data();
                 usersArray.push({
                     id: doc.id,
+                    avatar,
                     name,
                     email,
                     phone
@@ -50,9 +41,9 @@ const UserList = (props) => {
                         }}
                         >
                             {
-                                
+
                             }
-                            <Avatar title={user.name.charAt(0).toUpperCase()} rounded source={{ uri: avatar }} />
+                            <Avatar title={user.name.charAt(0).toUpperCase()} rounded source={{ uri: user.avatar }} />
 
                             <ListItem.Content>
                                 <ListItem.Title>{user.name}</ListItem.Title>

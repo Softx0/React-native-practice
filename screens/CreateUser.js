@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Button, TextInput, ScrollView, StyleSheet } from "react-native";
 import firebase from "../database/firebase";
 
 const CreateUser = (props) => {
 
     const [user, setUser] = useState({
+        avatar: '',
         name: '',
         email: '',
         phone: ''
-    })
+    });
+
+    const getAvatar = async () => {
+        await fetch("https://randomuser.me/api/").then(response => response.json()).then(data => {
+            let imageUrl = data.results[0].picture.medium;
+            setUser({ avatar: imageUrl });
+            return imageUrl;
+        });
+    };
 
     const handleChangeText = (name, value) => {
         setUser({ ...user, [name]: value })
@@ -16,13 +25,13 @@ const CreateUser = (props) => {
 
     //devuelve una promesa por lo que debe ser async await o debemos poner abajo Promise.resolve(........)
     const saveNewUser = async () => {
-        console.log(user)
         if (user.name === '' || user.email === '' || user.phone === '') {
             alert('Por favor no dejar campos vacios')
         } else {
             try {
                 // Añadiendo un objeto a la db nosql
                 await firebase.db.collection('users').add({
+                    avatar: user.avatar,
                     name: user.name,
                     email: user.email,
                     phone: user.phone
@@ -34,6 +43,9 @@ const CreateUser = (props) => {
             }
         }
     }
+    useEffect(() => {
+        getAvatar();
+    }, []);
 
     return (
         <ScrollView style={styles.container} >
@@ -52,7 +64,8 @@ const CreateUser = (props) => {
 
             <View>
                 <Button
-                    title="Save User" onPress={() => saveNewUser()}
+                    title="Save User"
+                    onPress={() => saveNewUser()}
                     color="#278d39"
                 />
             </View>
